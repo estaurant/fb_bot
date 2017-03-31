@@ -1,7 +1,7 @@
 {
-  "name": "Wit-Facebook",
+  "name": "Estaurant",
   "version": "1.0.0",
-  "description": "Simple Wit-Facebook",
+  "description": "Espresso restaurant",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",

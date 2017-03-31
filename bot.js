@@ -5,7 +5,7 @@
 const { Wit, interactive } = require('node-wit');
 const FB = require('./facebook.js');
 const Config = require('./const.js');
-const WordApi = require('./wordapi.js');
+const WordApi = {};
 const readline = require('readline');
 
 const rl = readline.createInterface({
@@ -13,7 +13,7 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
-const accessToken = Config.WIT_TOKEN;
+const accessToken = '';
 
 const firstEntityValue = (entities, entity) => {
   const val = entities && entities[entity] &&
@@ -85,7 +85,7 @@ const actions = {
 
 
 const getWit = () => {
-  return new Wit({ accessToken, actions });
+  // return new Wit({ accessToken, actions });
 };
 
 const testWord = {
