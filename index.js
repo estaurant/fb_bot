@@ -113,7 +113,7 @@ app.post('/webhook', (req, res) => {
 
       FB.fbMessage(
         sender,
-        {text:'สวัสดีค่ะ ยินดีต้อนรับเข้าสู่ estaurant club'}
+        {text:'ตะมุตะมิ'}
       );
       // wit.runActions(
       //   sessionId, // the user's current session
