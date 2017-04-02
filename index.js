@@ -13,6 +13,9 @@ const express = require('express');
 const {getWit, onMessage} = require('./bot.js');
 const Config = require('./const.js');
 const FB = require('./facebook.js');
+const API = require('./api.js');
+
+var http = require('http');
 
 // Setting up our bot
 const wit = getWit();
@@ -111,9 +114,13 @@ app.post('/webhook', (req, res) => {
       var context = sessions[sessionId].context;
       // onMessage(wit, msg, context);
 
+      //TODO call sentence_ai
+      var intentAndWord = api.callSentenceAi(msg);
+      //TODO call restaurant_api
+      
       FB.fbMessage(
         sender,
-        {text:'ตะมุตะมิ'}
+        {text:'ตะมุตะมิ'+' '+ sender+' '+intentAndWord.intent + ' ' + intentAndWord.word}
       );
       // wit.runActions(
       //   sessionId, // the user's current session
@@ -141,5 +148,17 @@ app.post('/webhook', (req, res) => {
       // );
     }
   }
+
   res.sendStatus(200);
+  
+});
+
+app.post('/sentenceAi', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(JSON.stringify({ intent: "intent", word : "word" }));  
+});
+
+app.post('/restaurantApi', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(JSON.stringify({ message: "message" }));  
 });

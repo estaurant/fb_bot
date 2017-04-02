@@ -6,6 +6,18 @@
 //   throw new Error('missing WIT_TOKEN');
 // }
 
+//API information
+var SENTENCE_AI_URL = process.env.SENTENCE_AI_URL;
+var RESTAURANT_API_URL = process.env.RESTAURANT_API_URL;
+
+if(!SENTENCE_AI_URL) {
+  SENTENCE_AI_URL = "http://localhost:8445/sentenceAi";
+}
+
+if(!SENTENCE_AI_URL) {
+  SENTENCE_AI_URL = "http://localhost:8445/restaurantApi";
+}
+
 // Messenger API parameters
 const FB_PAGE_TOKEN = process.env.FB_PAGE_TOKEN;
 
@@ -23,5 +35,7 @@ module.exports = {
   // WIT_TOKEN: WIT_TOKEN,
   FB_PAGE_TOKEN: FB_PAGE_TOKEN,
   FB_VERIFY_TOKEN: FB_VERIFY_TOKEN,
-  WORD_API_URL: WORD_API_URL
+  WORD_API_URL: WORD_API_URL,
+  SENTENCE_AI_URL: SENTENCE_AI_URL,
+  RESTAURANT_API_URL: RESTAURANT_API_URL
 };
