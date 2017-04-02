@@ -155,10 +155,16 @@ app.post('/webhook', (req, res) => {
 
 app.post('/sentenceAi', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
-  res.send(JSON.stringify({ intent: "intent", word : "word" }));  
+  res.send(JSON.stringify({ "intent": "intent", "word" : "word" }));  
 });
 
 app.post('/restaurantApi', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
-  res.send(JSON.stringify({ message: "message" }));  
+  res.send(JSON.stringify({ "message": "message" }));  
 });
+
+// app.post('/webhooktest', (req, res) => {
+//   var intentAndWord = API.callSentenceAi("test");
+//   res.setHeader('Content-Type', 'application/json');
+//   res.send(intentAndWord);  
+// });

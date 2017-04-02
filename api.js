@@ -16,8 +16,7 @@ const callSentenceAi = (sentence) => {
 
     request(options, function (error, response, body) {
         if (!error && response.statusCode == 200) {
-            var info = JSON.parse(body);
-            return info;
+            return response.body;
         } else {
             return {};
         }
