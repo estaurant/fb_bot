@@ -120,7 +120,7 @@ app.post('/webhook', (req, res) => {
       
       FB.fbMessage(
         sender,
-        {text:'ตะมุตะมิ'+' '+ sender+' '+intentAndWord.intent + ' ' + intentAndWord.word}
+        {text:'ตะมุตะมิ'}
       );
       // wit.runActions(
       //   sessionId, // the user's current session
