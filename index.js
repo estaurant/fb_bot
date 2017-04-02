@@ -115,7 +115,7 @@ app.post('/webhook', (req, res) => {
       // onMessage(wit, msg, context);
 
       //TODO call sentence_ai
-      var intentAndWord = api.callSentenceAi(msg);
+      var intentAndWord = API.callSentenceAi(msg);
       //TODO call restaurant_api
       
       FB.fbMessage(
