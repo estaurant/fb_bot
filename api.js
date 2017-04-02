@@ -21,7 +21,6 @@ const callSentenceAi = (sentence) => {
                 "intent" : response.body.intent,
                 "word"   : response.body.word
             };
-
         } 
         return intentAndWord;
     }

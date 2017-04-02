@@ -14,8 +14,8 @@ if(!SENTENCE_AI_URL) {
   SENTENCE_AI_URL = "http://localhost:8445/sentenceAi";
 }
 
-if(!SENTENCE_AI_URL) {
-  SENTENCE_AI_URL = "http://localhost:8445/restaurantApi";
+if(!RESTAURANT_API_URL) {
+  RESTAURANT_API_URL = "http://localhost:8445/restaurantApi";
 }
 
 // Messenger API parameters

@@ -137,42 +137,29 @@ app.post('/webhook', (req, res) => {
             };
         } 
 
-        FB.fbMessage(
-          sender,
-          {text:'ตะมุตะมิ'+' intent='+response.body.intent+' word='+response.body.word}
+        var queryString = { 
+          keyword: response.body.word,
+          distance: '1km',
+          price: 100
+        };
+
+        request({url:Config.RESTAURANT_API_URL, qs:queryString}, function(err, response, body) {
+            if(err) { console.log(err); return; }
+            var restaurants = JSON.parse(response.body);
+            var result = "ไก่แป้ง";
+            if (restaurants[0]) {
+              result = restaurants[0]._source.name;
+            }
+            FB.fbMessage(
+              sender,
+              {text:'ตะมุตะมิ ลองดูไหมเธอ '+ sender + ' ร้าน' + result}
+            );
+            res.sendStatus(200);
+          }
         );
-        res.sendStatus(200);
+
+        
       });
-      //TODO call restaurant_api
-      
-      // FB.fbMessage(
-      //   sender,
-      //   {text:'ตะมุตะมิ'}
-      // );
-      // wit.runActions(
-      //   sessionId, // the user's current session
-      //   msg, // the user's message 
-      //   sessions[sessionId].context, // the user's current session state
-      //   (error, context) => {
-      //     if (error) {
-      //       console.log('Oops! Got an error from Wit:', error);
-      //     } else {
-      //       // Our bot did everything it has to do.
-      //       // Now it's waiting for further messages to proceed.
-      //       console.log('Waiting for futher messages.');
-
-      //       // Based on the session state, you might want to reset the session.
-      //       // This depends heavily on the business logic of your bot.
-      //       // Example:
-      //       // if (context['done']) {
-      //       //   delete sessions[sessionId];
-      //       // }
-
-      //       // Updating the user's current session state
-      //       sessions[sessionId].context = context;
-      //     }
-      //   }
-      // );
     }
   }
 
@@ -180,7 +167,7 @@ app.post('/webhook', (req, res) => {
 
 app.post('/sentenceAi', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
-  res.send(JSON.stringify({ "intent": "intent", "word" : "word" }));  
+  res.send(JSON.stringify({ "intent": "intent", "word" : "ข้าว" }));  
 });
 
 app.post('/restaurantApi', (req, res) => {
@@ -190,26 +177,38 @@ app.post('/restaurantApi', (req, res) => {
 
 app.post('/webhooktest', (req, res) => {
   var sentence = "xxx";
-  var options = {
-      uri: Config.SENTENCE_AI_URL,
-      method: 'POST',
-      headers: {
-          "content-type": "application/json",
-      },
-      json: {
-          "sentence": sentence
-      }
-  };
-  
-  request(options, function (error, response, body) {
-    var intentAndWord = {};
-    if (!error && response.statusCode == 200) {
-        intentAndWord = {
-            "intent" : response.body.intent,
-            "word"   : response.body.word
+      var options = {
+          uri: Config.SENTENCE_AI_URL,
+          method: 'POST',
+          headers: {
+              "content-type": "application/json",
+          },
+          json: {
+              "sentence": sentence
+          }
+      };
+      
+      request(options, function (error, response, body) {
+        var intentAndWord = {};
+        if (!error && response.statusCode == 200) {
+            intentAndWord = {
+                "intent" : response.body.intent,
+                "word"   : response.body.word
+            };
+        } 
+
+        var queryString = { 
+          keyword: response.body.word,
+          distance: '1km',
+          price: 100
         };
-    } 
-    res.send(JSON.stringify(intentAndWord)); 
-  });
+        request({url:Config.RESTAURANT_API_URL, qs:queryString}, function(err, response, body) {
+            if(err) { console.log(err); return; }
+            var restaurants = JSON.parse(response.body);
+            console.log(restaurants[0]._source.name);
+            res.sendStatus(200);
+          }
+        );
+      });
   
 });
