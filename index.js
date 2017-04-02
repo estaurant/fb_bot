@@ -16,6 +16,7 @@ const FB = require('./facebook.js');
 const API = require('./api.js');
 
 var http = require('http');
+var request = require('request');
 
 // Setting up our bot
 const wit = getWit();
@@ -115,13 +116,39 @@ app.post('/webhook', (req, res) => {
       // onMessage(wit, msg, context);
 
       //TODO call sentence_ai
-      var intentAndWord = API.callSentenceAi(msg);
+      var sentence = msg;
+      var options = {
+          uri: Config.SENTENCE_AI_URL,
+          method: 'POST',
+          headers: {
+              "content-type": "application/json",
+          },
+          json: {
+              "sentence": sentence
+          }
+      };
+      
+      request(options, function (error, response, body) {
+        var intentAndWord = {};
+        if (!error && response.statusCode == 200) {
+            intentAndWord = {
+                "intent" : response.body.intent,
+                "word"   : response.body.word
+            };
+        } 
+
+        FB.fbMessage(
+          sender,
+          {text:'ตะมุตะมิ'+' intent='+response.body.intent+' word='+response.body.word}
+        );
+        res.sendStatus(200);
+      });
       //TODO call restaurant_api
       
-      FB.fbMessage(
-        sender,
-        {text:'ตะมุตะมิ'}
-      );
+      // FB.fbMessage(
+      //   sender,
+      //   {text:'ตะมุตะมิ'}
+      // );
       // wit.runActions(
       //   sessionId, // the user's current session
       //   msg, // the user's message 
@@ -149,8 +176,6 @@ app.post('/webhook', (req, res) => {
     }
   }
 
-  res.sendStatus(200);
-  
 });
 
 app.post('/sentenceAi', (req, res) => {
@@ -163,8 +188,28 @@ app.post('/restaurantApi', (req, res) => {
   res.send(JSON.stringify({ "message": "message" }));  
 });
 
-// app.post('/webhooktest', (req, res) => {
-//   var intentAndWord = API.callSentenceAi("test");
-//   res.setHeader('Content-Type', 'application/json');
-//   res.send(intentAndWord);  
-// });
+app.post('/webhooktest', (req, res) => {
+  var sentence = "xxx";
+  var options = {
+      uri: Config.SENTENCE_AI_URL,
+      method: 'POST',
+      headers: {
+          "content-type": "application/json",
+      },
+      json: {
+          "sentence": sentence
+      }
+  };
+  
+  request(options, function (error, response, body) {
+    var intentAndWord = {};
+    if (!error && response.statusCode == 200) {
+        intentAndWord = {
+            "intent" : response.body.intent,
+            "word"   : response.body.word
+        };
+    } 
+    res.send(JSON.stringify(intentAndWord)); 
+  });
+  
+});

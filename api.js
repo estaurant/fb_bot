@@ -14,13 +14,19 @@ const callSentenceAi = (sentence) => {
         }
     };
 
-    request(options, function (error, response, body) {
+    var callback = function (error, response, body) {
+        var intentAndWord = {};
         if (!error && response.statusCode == 200) {
-            return response.body;
-        } else {
-            return {};
-        }
-    });
+            intentAndWord = {
+                "intent" : response.body.intent,
+                "word"   : response.body.word
+            };
+
+        } 
+        return intentAndWord;
+    }
+    
+    return request(options, callback);
 }
 
 module.exports = {
