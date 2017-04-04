@@ -16,6 +16,7 @@ if(!SENTENCE_AI_URL) {
 
 if(!RESTAURANT_API_URL) {
   RESTAURANT_API_URL = "http://localhost:8445/restaurantApi";
+  RESTAURANT_API_URL = "https://estaurantapi.herokuapp.com/estaurants";
 }
 
 // Messenger API parameters
