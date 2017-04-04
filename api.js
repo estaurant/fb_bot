@@ -7,7 +7,7 @@ const callRestaurantApi = (keyword) => {
     console.log("intent="+intent);
     var queryString = { 
         keyword: keyword,
-        distance: '1km',
+        distance: '500m',
         price: 200,
         random: false
     };
