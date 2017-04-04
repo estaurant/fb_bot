@@ -4,7 +4,7 @@ const Config = require('./const.js');
 
 const callRestaurantApi = (keyword) => {
     var intent = findFoodSubIntent(keyword);
-
+    console.log("intent="+intent);
     var queryString = { 
         keyword: keyword,
         distance: '1km',
@@ -18,8 +18,13 @@ const callRestaurantApi = (keyword) => {
         queryString.price = 100;
     } else if (intent === 'expensive') {
         queryString.price = 1000;
-    } else if (intent === '') {
+    }
+    
+    if (intent === '') {
         queryString.random = true;
+    } else {
+        //TODO can't extract keyword
+        queryString.keyword = '';
     }
 
     var options = {
@@ -45,7 +50,7 @@ const findFoodSubIntent = (keyword) => {
 
     var isDistanceLessThan100m = isMatchIntent(distanceLessThan100m, inverseDistanceLessThan100m, keyword);
 
-    var priceLessThan100 = ["จน", "ไม่มีเงิน", "ไม่แพง", "กระเป๋าแบน"];
+    var priceLessThan100 = ["จน", "ไม่มีเงิน", "ไม่แพง", "กระเป๋าแบน", "ถูก"];
     var inversePriceLessThan100 = ["ไม่จน"];
     var isPriceLessThan100 = isMatchIntent(priceLessThan100, inversePriceLessThan100, keyword);
     

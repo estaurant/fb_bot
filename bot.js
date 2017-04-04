@@ -135,7 +135,7 @@ const estaurantMessage = (msg, context) => {
         var message = "หาไม่เจออ่ะ";
         var restaurant = restaurants[0];
         if (restaurant) {
-          message = "ร้าน"+restaurant._source.name+" ไหมเธอ";
+          message = "ลอง "+restaurant._source.name+" ไหมเธอ";
           var geo = restaurant._source.geo;
           if (geo && geo.location) {
             message += "ให้ google พาไปเลย http://maps.google.com/maps?q=loc:"+geo.location[0]+","+geo.location[1];
