@@ -1,6 +1,27 @@
 
-var request = require('request');
+const request = require('request-promise');
 const Config = require('./const.js');
+
+const callRestaurantApi = (mode, intent, keyword) => {
+
+    var queryString = { 
+        keyword: keyword,
+        distance: '1km',
+        price: 200,
+        random: true
+    };
+
+    var options = {
+        uri: 'Config.RESTAURANT_API_URL',
+        qs: queryString,
+        headers: {
+            'User-Agent': 'Request-Promise'
+        },
+        json: true
+    };
+
+    return require(options);
+}
 
 const callSentenceAi = (sentence) => {
     var options = {
@@ -77,5 +98,5 @@ const callSentenceAi = (sentence) => {
 }
 
 module.exports = {
-  callSentenceAi: callSentenceAi
+  callRestaurantApi: callRestaurantApi
 };

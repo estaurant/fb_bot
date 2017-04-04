@@ -7,6 +7,7 @@ const FB = require('./facebook.js');
 const Config = require('./const.js');
 const WordApi = {};
 const readline = require('readline');
+const API = require('./api.js');
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -104,7 +105,27 @@ const buildWordList = (word) => {
 }
 
 const estaurantMessage = (msg, context) => {
-  fbTextSend(msg, context);
+
+  fbTextSend("แปปนึงนะ", context);
+  var intent = "random";
+  var keyword;
+
+  var wantToMode = msg.includes("อยากกิน");
+  var negativeWantToMode = msg.includes("ไม่อยากกิน");
+  if (wantToMode && !negativeWantToMode) {
+    var matchStr = str.match(/อยากกิน(.*)/);
+    keyword = matchStr[1];
+  }
+
+  API.callRestaurantApi("", intent, keyword).then(function(body){
+    var restaurants = JSON.parse(body);
+    var message = "หาไม่เจออ่ะ";
+    if (restautants[0]) {
+      message = restaurants[0]._source.name
+    }
+    fbTextSend(msg, context);
+  });
+
   return Promise.resolve(true);
 }
 
