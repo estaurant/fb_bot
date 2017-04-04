@@ -113,56 +113,12 @@ app.post('/webhook', (req, res) => {
       // Let's forward the message to the Wit.ai Bot Engine
       // This will run all actions until our bot has nothing left to do
       var context = sessions[sessionId].context;
-      // onMessage(wit, msg, context);
-
-      //TODO call sentence_ai
-      var sentence = msg;
-      var options = {
-          uri: Config.SENTENCE_AI_URL,
-          method: 'POST',
-          headers: {
-              "content-type": "application/json",
-          },
-          json: {
-              "sentence": sentence
-          }
-      };
       
-      request(options, function (error, response, body) {
-        var intentAndWord = {};
-        if (!error && response.statusCode == 200) {
-            intentAndWord = {
-                "intent" : response.body.intent,
-                "word"   : response.body.word
-            };
-        } 
 
-        var queryString = { 
-          keyword: response.body.word,
-          distance: '1km',
-          price: 100
-        };
-
-        request({url:Config.RESTAURANT_API_URL, qs:queryString}, function(err, response, body) {
-            if(err) { console.log(err); return; }
-            var restaurants = JSON.parse(response.body);
-            var result = "ไก่แป้ง";
-            if (restaurants[0]) {
-              result = restaurants[0]._source.name;
-            }
-            FB.fbMessage(
-              sender,
-              {text:'ตะมุตะมิ ลองดูไหมเธอ '+ sender + ' ร้าน' + result}
-            );
-            res.sendStatus(200);
-          }
-        );
-
-        
-      });
+      
     }
   }
-
+  res.sendStatus(200);
 });
 
 app.post('/sentenceAi', (req, res) => {
@@ -209,6 +165,24 @@ app.post('/webhooktest', (req, res) => {
             res.sendStatus(200);
           }
         );
-      });
-  
+    });
+
+    
 });
+app.post('/setGreetingMsg', (req, res) => {
+    console.log(req.body.text);
+    var options = {
+        uri: "https://graph.facebook.com/v2.6/"+Config.FB_PAGE_ID+"/thread_settings?access_token="+Config.FB_PAGE_TOKEN,
+        method: 'POST',
+        headers: {
+            "content-type": "application/json",
+        },
+        json: {
+          "setting_type":"greeting",
+          "greeting": {
+            "text": "สวัสดีค่ะ ยินดีต้อนรับเข้าสู่บริการค้นหาร้านอาหาร estaurant"
+          }
+        }
+    };
+    res.sendStatus(200);  
+  });
