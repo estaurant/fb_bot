@@ -109,7 +109,7 @@ app.post('/webhook', (req, res) => {
       );
     } else if (msg) {
       // We received a text message
-
+      onMessage(msg, context);
       // Let's forward the message to the Wit.ai Bot Engine
       // This will run all actions until our bot has nothing left to do
       var context = sessions[sessionId].context;
@@ -170,19 +170,19 @@ app.post('/webhooktest', (req, res) => {
     
 });
 app.post('/setGreetingMsg', (req, res) => {
-    console.log(req.body.text);
-    var options = {
-        uri: "https://graph.facebook.com/v2.6/"+Config.FB_PAGE_ID+"/thread_settings?access_token="+Config.FB_PAGE_TOKEN,
-        method: 'POST',
-        headers: {
-            "content-type": "application/json",
-        },
-        json: {
-          "setting_type":"greeting",
-          "greeting": {
-            "text": "สวัสดีค่ะ ยินดีต้อนรับเข้าสู่บริการค้นหาร้านอาหาร estaurant"
-          }
+  console.log(req.body.text);
+  var options = {
+      uri: "https://graph.facebook.com/v2.6/"+Config.FB_PAGE_ID+"/thread_settings?access_token="+Config.FB_PAGE_TOKEN,
+      method: 'POST',
+      headers: {
+          "content-type": "application/json",
+      },
+      json: {
+        "setting_type":"greeting",
+        "greeting": {
+          "text": "สวัสดีค่ะ ยินดีต้อนรับเข้าสู่บริการค้นหาร้านอาหาร estaurant"
         }
-    };
-    res.sendStatus(200);  
-  });
+      }
+  };
+  res.sendStatus(200);  
+});
