@@ -20,7 +20,7 @@ const callRestaurantApi = (mode, intent, keyword) => {
         json: true
     };
 
-    return require(options);
+    return request(options);
 }
 
 const callSentenceAi = (sentence) => {
