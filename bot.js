@@ -113,7 +113,7 @@ const estaurantMessage = (msg, context) => {
   var wantToMode = msg.includes("อยากกิน");
   var negativeWantToMode = msg.includes("ไม่อยากกิน");
   if (wantToMode && !negativeWantToMode) {
-    var matchStr = str.match(/อยากกิน(.*)/);
+    var matchStr = msg.match(/อยากกิน(.*)/);
     keyword = matchStr[1];
   }
 
