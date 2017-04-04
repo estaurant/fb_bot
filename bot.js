@@ -124,6 +124,8 @@ const estaurantMessage = (msg, context) => {
       message = restaurants[0]._source.name
     }
     fbTextSend(msg, context);
+  }, function () {
+    fbTextSend("api error", context);
   });
 
   return Promise.resolve(true);
