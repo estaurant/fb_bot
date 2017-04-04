@@ -104,31 +104,56 @@ const buildWordList = (word) => {
   return buildList(fbList);
 }
 
-const estaurantMessage = (msg, context) => {
-
-  fbTextSend("แปปนึงนะ", context);
-  var intent = "random";
-  var keyword;
-
-  var wantToMode = msg.includes("อยากกิน");
-  var negativeWantToMode = msg.includes("ไม่อยากกิน");
-  if (wantToMode && !negativeWantToMode) {
-    var matchStr = msg.match(/อยากกิน(.*)/);
-    keyword = matchStr[1];
+const findIntent = (msg) => {
+  var greetingList = ["สวัสดี", "hello ", "hi ", "หวัดดี" ];
+  var intent;
+  for (i = 0; i < greetingList.length; i++) { 
+    if (msg.includes(greetingList[i])) {
+      return "greeting";
+    }
   }
 
-  API.callRestaurantApi("", intent, keyword).then(function(body){
-    var restaurants = JSON.parse(body);
-    var message = "หาไม่เจออ่ะ";
-    if (restautants[0]) {
-      message = restaurants[0]._source.name
-    }
-    fbTextSend(msg, context);
-  }, function () {
-    fbTextSend("api error", context);
-  });
+  if (msg.includes("อยากกิน") && !msg.includes("ไม่อยากกิน")) {
+    return "food";
+  }
+
+  return "unknown";
+}
+
+const estaurantMessage = (msg, context) => {
+  var intent = findIntent(msg);
+  fbTextSend("แปปนึงนะ", context);
+  var keyword;
+
+  if (intent === 'food') {
+    var matchStr = msg.match(/อยากกิน(.*)/);
+    keyword = matchStr[1];
+
+    API.callRestaurantApi("", intent, keyword).then(
+      function(body){
+        var restaurants = JSON.parse(body);
+        var message = "หาไม่เจออ่ะ";
+        if (restautants[0]) {
+          message = restaurants[0]._source.name
+        }
+        fbTextSend(msg, context);
+      }, function () {
+        console.log("handle error while calling restaurant api");
+        fbTextSend("api error", context);
+      }
+    );
+  } else if (intent === 'greeting') {
+    onGreeting(context);
+  } else if (intent === 'unknown') {
+    fbTextSend("... งง", context);
+    fbTextSend("เราช่วยหาร้านอาหารให้เธอได้นะ พิมพ์อยากกิน... ", context);
+  }
 
   return Promise.resolve(true);
+}
+
+const onGreeting = (context) => {
+  return fbTextSend("สวัสดีค่ะ ยินดีต้อนรับเข้าสู่บริการค้นหาร้านอาหาร estaurant พิมพ์ อยากกิน... ให้เราช่วยหาร้านอาหารได้เลยจ้า", context);
 }
 
 const onMessage = (msg, context) => {
