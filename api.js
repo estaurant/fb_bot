@@ -12,7 +12,7 @@ const callRestaurantApi = (mode, intent, keyword) => {
     };
 
     var options = {
-        uri: 'Config.RESTAURANT_API_URL',
+        uri: Config.RESTAURANT_API_URL,
         qs: queryString,
         headers: {
             'User-Agent': 'Request-Promise'
