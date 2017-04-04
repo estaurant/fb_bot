@@ -2,14 +2,25 @@
 const request = require('request-promise');
 const Config = require('./const.js');
 
-const callRestaurantApi = (mode, intent, keyword) => {
+const callRestaurantApi = (keyword) => {
+    var intent = findFoodSubIntent(keyword);
 
     var queryString = { 
         keyword: keyword,
         distance: '1km',
         price: 200,
-        random: true
+        random: false
     };
+
+    if (intent === 'near') {
+        queryString.distance = '100m';
+    } else if (intent === 'cheap') {
+        queryString.price = 100;
+    } else if (intent === 'expensive') {
+        queryString.price = 1000;
+    } else if (intent === '') {
+        queryString.random = true;
+    }
 
     var options = {
         uri: Config.RESTAURANT_API_URL,
@@ -20,7 +31,57 @@ const callRestaurantApi = (mode, intent, keyword) => {
         json: true
     };
 
+    console.log("call restaurant with distance="+queryString.distance);
+    console.log("call restaurant with price="+queryString.price);
+    console.log("call restaurant with keyword="+queryString.keyword);
+    console.log("call restaurant with random="+queryString.random);
+
     return request(options);
+}
+
+const findFoodSubIntent = (keyword) => {
+    var distanceLessThan100m = ["หิว", "เร็ว", "รีบ"];
+    var inverseDistanceLessThan100m = ["ไม่หิว", "ไม่เร็ว", "ไม่รีบ"];
+
+    var isDistanceLessThan100m = isMatchIntent(distanceLessThan100m, inverseDistanceLessThan100m, keyword);
+
+    var priceLessThan100 = ["จน", "ไม่มีเงิน", "ไม่แพง", "กระเป๋าแบน"];
+    var inversePriceLessThan100 = ["ไม่จน"];
+    var isPriceLessThan100 = isMatchIntent(priceLessThan100, inversePriceLessThan100, keyword);
+    
+    var priceMoreThan100 = ["รวย", "เงินเดือนออก", "ถูกหวย", "ไฮโซ"]
+    var inversePriceMoreThan100 = ["ไม่รวย","ถูกหวยกิน", "ถูกหวยแดก"]
+
+    var isPriceMoreThan100 = isMatchIntent(priceMoreThan100, inversePriceMoreThan100, keyword);
+
+    if (isDistanceLessThan100m) {
+        return "near";
+    } else if (isPriceLessThan100) {
+        return "cheap";
+    } else if (isPriceMoreThan100) {
+        return "expensive";
+    } else {
+        return "";
+    }
+}
+
+const isMatchIntent = (intentList, inverseIntentList, keyword) => {
+    var matchIntent = false;
+    var matchInverseIntent = false;
+
+    for (var i = 0; i < intentList.length; i++) { 
+        if (keyword.includes(intentList[i])) {
+            matchIntent = true;
+        }
+    }
+
+    for (var i = 0; i < matchInverseIntent.length; i++) { 
+        if (keyword.includes(intentList[i])) {
+            matchInverseIntent = true;
+        }
+    }
+
+    return matchIntent && !matchInverseIntent
 }
 
 const callSentenceAi = (sentence) => {

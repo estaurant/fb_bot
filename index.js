@@ -131,42 +131,10 @@ app.post('/restaurantApi', (req, res) => {
 });
 
 app.post('/webhooktest', (req, res) => {
-  var sentence = "xxx";
-      var options = {
-          uri: Config.SENTENCE_AI_URL,
-          method: 'POST',
-          headers: {
-              "content-type": "application/json",
-          },
-          json: {
-              "sentence": sentence
-          }
-      };
-      
-      request(options, function (error, response, body) {
-        var intentAndWord = {};
-        if (!error && response.statusCode == 200) {
-            intentAndWord = {
-                "intent" : response.body.intent,
-                "word"   : response.body.word
-            };
-        } 
-
-        var queryString = { 
-          keyword: response.body.word,
-          distance: '1km',
-          price: 100
-        };
-        request({url:Config.RESTAURANT_API_URL, qs:queryString}, function(err, response, body) {
-            if(err) { console.log(err); return; }
-            var restaurants = JSON.parse(response.body);
-            console.log(restaurants[0]._source.name);
-            res.sendStatus(200);
-          }
-        );
-    });
-
-    
+    var msg = "อยากกินส้มตำ";
+    var context = {};
+    onMessage(msg, context);
+    res.sendStatus(200);
 });
 app.post('/setGreetingMsg', (req, res) => {
   console.log(req.body.text);

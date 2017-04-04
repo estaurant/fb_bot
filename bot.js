@@ -122,26 +122,34 @@ const findIntent = (msg) => {
 
 const estaurantMessage = (msg, context) => {
   var intent = findIntent(msg);
-  fbTextSend("แปปนึงนะ", context);
   var keyword;
 
   if (intent === 'food') {
+    fbTextSend("แปปนึงนะ", context);
     var matchStr = msg.match(/อยากกิน(.*)/);
     keyword = matchStr[1];
 
-    API.callRestaurantApi("", intent, keyword).then(
+    API.callRestaurantApi(keyword).then(
       function(body){
-        var restaurants = JSON.parse(body);
+        var restaurants = body;
         var message = "หาไม่เจออ่ะ";
-        if (restautants[0]) {
-          message = restaurants[0]._source.name
+        var restaurant = restaurants[0];
+        if (restaurant) {
+          message = "ร้าน"+restaurant._source.name+" ไหมเธอ";
+          var geo = restaurant._source.geo;
+          if (geo && geo.location) {
+            message += "ให้ google พาไปเลย http://maps.google.com/maps?q=loc:"+geo.location[0]+","+geo.location[1];
+          }
+          
         }
-        fbTextSend(msg, context);
-      }, function () {
-        console.log("handle error while calling restaurant api");
+        fbTextSend(message, context);
+      }, function (error) {
+        console.log("handle error while calling restaurant api "+error);
         fbTextSend("api error", context);
       }
-    );
+    ).catch(function (err) {
+        console.log("error while call restaurant api "+err);
+    });
   } else if (intent === 'greeting') {
     onGreeting(context);
   } else if (intent === 'unknown') {
