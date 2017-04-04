@@ -105,10 +105,10 @@ const buildWordList = (word) => {
 }
 
 const findIntent = (msg) => {
-  var greetingList = ["สวัสดี", "hello ", "hi ", "หวัดดี" ];
+  var greetingList = ["สวัสดี", "hello", "hi", "หวัดดี" ];
   var intent;
-  for (i = 0; i < greetingList.length; i++) { 
-    if (msg.includes(greetingList[i])) {
+  for (var i = 0; i < greetingList.length; i++) { 
+    if (msg.startsWith(greetingList[i])) {
       return "greeting";
     }
   }
