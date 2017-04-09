@@ -126,8 +126,8 @@ const estaurantMessage = (msg, context) => {
     fbTextSend("รอสักครู่นะครับ Kinda กำลังค้นหาร้านอาหาร", context);
     console.log("ai response body="+body);
     var aiResult = JSON.parse(body);
-    var aiIntent = aiResult[0];
-    var aiKeyword = aiResult[1];
+    var aiIntent = aiResult.intent?aiResult.intent:"";
+    var aiKeyword = aiResult.keyword?aiResult.keyword:"";
 
     console.log("aiIntent="+aiIntent);
     console.log("aiKeyword="+aiKeyword);
