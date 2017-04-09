@@ -133,7 +133,8 @@ const estaurantMessage = (msg, context) => {
     console.log("aiKeyword="+aiKeyword);
 
     if (aiIntent.toLowerCase()==='eat') {
-      keyword = matchStr[1];
+      
+      keyword = aiKeyword;
 
       API.callRestaurantApi(keyword).then(
         function(body){
@@ -156,42 +157,11 @@ const estaurantMessage = (msg, context) => {
     } else if (aiIntent.toLowerCase()==='eat_negative') {
 
     } else if (aiIntent.toLowerCase()==='greeting') {
-
-    }
-
-    var intent = findIntent(msg);
-    var keyword;
-
-    console.log("ai result="+aiResult);
-
-    if (intent === 'food') {
-    
-      var matchStr = msg.match(/อยากกิน(.*)/);
-      keyword = matchStr[1];
-
-      API.callRestaurantApi(keyword).then(
-        function(body){
-          var restaurants = body;
-          var message = "หาไม่เจออ่ะ";
-          var restaurant = restaurants[0];
-          if (restaurant) {
-            fbSend(buildGenericTemplate(body), context);
-          } else {
-            fbTextSend(message, context);
-          }
-          
-        }, function (error) {
-          console.log("handle error while calling restaurant api "+error);
-          fbTextSend("api error", context);
-        }
-      ).catch(function (err) {
-          console.log("error while call restaurant api "+err);
-      });
-    } else if (intent === 'greeting') {
       onGreeting(context);
-    } else if (intent === 'unknown') {
+    } else {
       fbTextSend("Kinda ไม่เข้าใจครับ อยากกินอะไรช่วยบอก Kinda หน่อยนะครับ", context);
     }
+
   }).catch(function (err) {
       console.log("error while call Sentence Ai "+err);
   });
