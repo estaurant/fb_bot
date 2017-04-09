@@ -287,9 +287,9 @@ const updateLastResult = (fbid, result) => {
 
 const updateLastResultRejectList = (fbid) => {
   var sessionId = findOrCreateSession(fbid);
-
+  var session = sessions[sessionId];
   if (session.lastResult) {
-    var session = sessions[sessionId];
+    
     if (session.rejectList) {
       session.rejectList.push(session.lastResult);
     } else {
