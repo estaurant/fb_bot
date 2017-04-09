@@ -221,7 +221,7 @@ const buildGenericTemplate =(result) => {
         "elements":[
            {
             "title":"Kinda พบร้านที่คุณอยากทานแล้วครับ",
-            "image_url":restaurant.image,
+            "image_url":imageUrl,
             "subtitle":restaurant._source.name,
             "default_action": {
               "type": "web_url",
