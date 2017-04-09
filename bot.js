@@ -225,7 +225,9 @@ const estaurantMessage = (msg, context) => {
 
 const findMenu = (fbid) => {
   var sessionId = findOrCreateSession(fbid);
+  console.log("findMenu sessionId="+sessionId);
   var session = sessions[sessionId];
+  console.log("findMenu session="+session);
   if (session.lastResult) {
     console.log("found lastResult");
     return "Kinda ขอแนะนำเมนู "+lastResult._source.menus.join(",") + "นะครับ";
@@ -287,6 +289,7 @@ const updateLastQuery = (fbid, query) => {
 }
 
 const updateLastResult = (fbid, result) => {
+  console.log("update last result");
   var sessionId = findOrCreateSession(fbid);
   var session = sessions[sessionId];
   session.lastResult = result;
