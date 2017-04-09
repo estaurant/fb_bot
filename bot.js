@@ -121,18 +121,34 @@ const findIntent = (msg) => {
 }
 
 const estaurantMessage = (msg, context) => {
-  var intent = findIntent(msg);
-  var keyword;
-
+  
   API.callSentenceAi(msg).then(function(body){
+    fbTextSend("รอสักครู่นะครับ Kinda กำลังค้นหาร้านอาหาร", context);
+
     var aiResult = JSON.parse(body);
+    var aiIntent = aiResult[0];
+    var aiKeyword = aiResult[1];
+
+    console.log("aiIntent="+aiIntent);
+    console.log("aiKeyword="+aiKeyword);
+
+    if (aiIntent.toLowerCase()==='eat') {
+
+    } else if (aiIntent.toLowerCase()==='eat_negative') {
+
+    } else if (aiIntent.toLowerCase()==='greeting') {
+      
+    }
+
+    var intent = findIntent(msg);
+    var keyword;
     console.log("ai result="+aiResult);
   }).catch(function (err) {
       console.log("error while call Sentence Ai "+err);
   });
 
   if (intent === 'food') {
-    fbTextSend("รอสักครู่นะครับ Kinda กำลังค้นหาร้านอาหาร", context);
+    
     var matchStr = msg.match(/อยากกิน(.*)/);
     keyword = matchStr[1];
 
