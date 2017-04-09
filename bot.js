@@ -407,7 +407,7 @@ const buildGenericTemplate =(result) => {
 }
 
 const getRestaurantApiQuery= (fbid, intent, keyword)=> {
-
+  console.log("getRestaurantApiQuery");
   var sessionId = findOrCreateSession(fbid);
   var session = sessions[sessionId];
   var distance;
@@ -444,6 +444,11 @@ const getRestaurantApiQuery= (fbid, intent, keyword)=> {
       price: price?price:500,
       random: false
   };
+
+    console.log("return from getRestaurantApiQuery with distance="+queryString.distance);
+    console.log("return from getRestaurantApiQuery with price="+queryString.price);
+    console.log("return from getRestaurantApiQuery  with keyword="+queryString.keyword);
+    console.log("return from getRestaurantApiQuery  with random="+queryString.random);
 
   return query;
 }
