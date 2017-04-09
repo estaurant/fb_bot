@@ -227,8 +227,10 @@ const findMenu = (fbid) => {
   var sessionId = findOrCreateSession(fbid);
   var session = sessions[sessionId];
   if (session.lastResult) {
+    console.log("found lastResult");
     return "Kinda ขอแนะนำเมนู "+lastResult._source.menus.join(",") + "นะครับ";
   } else {
+    console.log("not found lastResult");
     return;
   }
 }
