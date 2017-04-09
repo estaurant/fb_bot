@@ -15,6 +15,8 @@ const findOrCreateSession = (fbid) => {
   let sessionId;
   // Let's see if we already have a session for the user fbid
   Object.keys(sessions).forEach(k => {
+    console.log("sessions[k]="+sessions[k]);
+    console.log("fbid="+fbid);
     if (sessions[k].fbid === fbid) {
       // Yep, got it!
       sessionId = k;
