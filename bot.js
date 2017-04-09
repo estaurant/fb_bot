@@ -265,21 +265,21 @@ const findOrCreateSession = (fbid) => {
 };
 
 const updateLastQuery = (fbid, query) => {
-  var sessionId = findOrCreateSession();
+  var sessionId = findOrCreateSession(fbid);
   var session = sessions[sessionId];
   session.lastQuery = query;
   sessions[sessionId] = session;
 }
 
 const updateLastResult = (fbid, result) => {
-  var sessionId = findOrCreateSession();
+  var sessionId = findOrCreateSession(fbid);
   var session = sessions[sessionId];
   session.lastResult = result;
   sessions[sessionId] = session;
 }
 
 const updateLastResultRejectList = (fbid) => {
-  var sessionId = findOrCreateSession();
+  var sessionId = findOrCreateSession(fbid);
 
   if (session.lastResult) {
     var session = sessions[sessionId];
