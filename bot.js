@@ -210,7 +210,7 @@ const buildGenericTemplate =(result) => {
   var geo = restaurant._source.geo;
   var url = "https://www.wongnai.com/"+restaurant._source.original_id;
   var locationUrl = "http://maps.google.com/maps?q=loc:"+geo.location[1]+","+geo.location[0];
-  var imageUrl = restaurant.image;
+  var imageUrl = restaurant._source.image;
   console.log("url="+url);
   console.log("imageUrl="+imageUrl);
   return {
