@@ -2,6 +2,10 @@
 const request = require('request-promise');
 const Config = require('./const.js');
 
+const callSentenceAi = (sentence) => {
+    return request.get(Config.SENTENCE_AI_URL+"/intents/"+sentence)
+}
+
 const callRestaurantApi = (keyword) => {
     var intent = findFoodSubIntent(keyword);
     console.log("intent="+intent);
@@ -164,5 +168,6 @@ const callSentenceAi = (sentence) => {
 }
 
 module.exports = {
-  callRestaurantApi: callRestaurantApi
+  callRestaurantApi: callRestaurantApi,
+  callSentenceAi: callSentenceAi
 };

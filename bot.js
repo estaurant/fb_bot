@@ -123,8 +123,16 @@ const findIntent = (msg) => {
 const estaurantMessage = (msg, context) => {
   var intent = findIntent(msg);
   var keyword;
+
+  API.callSentenceAi(msg).then(function(body){
+    var aiResult = JSON.parse(body);
+    console.log("ai result="+aiResult);
+  }).catch(function (err) {
+      console.log("error while call Sentence Ai "+err);
+  });
+
   if (intent === 'food') {
-    fbTextSend("แปปนึงนะ", context);
+    fbTextSend("รอสักครู่นะครับ Kinda กำลังค้นหาร้านอาหาร", context);
     var matchStr = msg.match(/อยากกิน(.*)/);
     keyword = matchStr[1];
 
