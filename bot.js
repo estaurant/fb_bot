@@ -29,7 +29,7 @@ const findOrCreateSession = (fbid) => {
 
   var FIFTEEN_MIN = 15*60*1000;
   if (sessionId) {
-    if (((new Date) - Date.parse(sessionId)) < FIFTEEN_MIN) {
+    if (((new Date) - Date.parse(sessionId)) > FIFTEEN_MIN) {
       delete sessions[sessionId];
       sessionId = undefined;
     }
@@ -47,6 +47,8 @@ const findOrCreateSession = (fbid) => {
   }
   return sessionId;
 };
+
+
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -149,10 +151,10 @@ const estaurantMessage = (msg, context) => {
   var conversation = false;
   if (msg.includes("เมนู") || msg.toLowerCase().includes("menu")) {
     console.log("findMenu");
+    conversation = true;
     var menu = findMenu(context._fbid_);
     if (menu) {
       console.log("found menu");
-      conversation = true;
       fbTextSend(menu, context);
     } else {
       console.log("not found menu");
