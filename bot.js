@@ -184,7 +184,7 @@ const estaurantMessage = (msg, context) => {
       console.log("localIntent="+localIntent.intent);
       console.log("localKeyword"+localIntent.keyword);
 
-      if (aiIntent.toLowerCase()==='eat' || aiIntent.toLowerCase()==='recommend' || localIntent.toLowerCase()==='recommend') {
+      if (aiIntent.toLowerCase()==='eat' || aiIntent.toLowerCase()==='recommend' || localIntent.intent.toLowerCase()==='recommend') {
         fbTextSend("รอสักครู่นะครับ Kinda กำลังค้นหาร้านอาหาร", context);
         var query;
         if (aiIntent.toLowerCase() === 'default') {
