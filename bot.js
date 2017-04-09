@@ -426,16 +426,25 @@ const getRestaurantApiQuery= (fbid, intent, keyword)=> {
     }
   }
 
+  if (session.lastQuery) {
+    console.log("session.lastQuery if");
+  } else {
+    console.log("session.lastQuery else");
+  }
+
   if (keyword === '' && session.lastQuery) {
     keyword = session.lastQuery.keyword
+    console.log("overide keyword");
   } 
 
   if (!distance && session.lastQuery) {
     distance = session.lastQuery.distance
+    console.log("overide distance");
   } 
 
   if (!price && session.lastQuery) {
     price = session.lastQuery.price
+    console.log("overide price");
   }
 
   var query = { 
