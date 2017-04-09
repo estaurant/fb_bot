@@ -232,7 +232,7 @@ const findMenu = (fbid) => {
   console.log("findMenu session="+session);
   if (session.lastResult) {
     console.log("found lastResult");
-    return "Kinda ขอแนะนำเมนู "+lastResult._source.menus.join(",") + "นะครับ";
+    return "Kinda ขอแนะนำเมนู "+session.lastResult._source.menus.join(",") + "นะครับ";
   } else {
     console.log("not found lastResult");
     return;
