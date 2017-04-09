@@ -121,9 +121,8 @@ const findIntent = (msg) => {
 }
 
 const estaurantMessage = (msg, context) => {
-  if (msg === 'test') {
-    fbSend(buildGenericTemplate({}) ,context);
-  } else if (intent === 'food') {
+  var intent = findIntent(msg);
+  if (intent === 'food') {
     fbTextSend("แปปนึงนะ", context);
     var matchStr = msg.match(/อยากกิน(.*)/);
     keyword = matchStr[1];
@@ -134,14 +133,18 @@ const estaurantMessage = (msg, context) => {
         var message = "หาไม่เจออ่ะ";
         var restaurant = restaurants[0];
         if (restaurant) {
-          message = "ลอง "+restaurant._source.name+" ไหมเธอ";
-          var geo = restaurant._source.geo;
-          if (geo && geo.location) {
-            message += "ให้ google พาไปเลย http://maps.google.com/maps?q=loc:"+geo.location[1]+","+geo.location[0];
-          }
-          
+
+
+          // message = "ลอง "+restaurant._source.name+" ไหมเธอ";
+          // var geo = restaurant._source.geo;
+          // if (geo && geo.location) {
+          //   message += "ให้ google พาไปเลย http://maps.google.com/maps?q=loc:"+geo.location[1]+","+geo.location[0];
+          // }
+          fbSend(buildGenericTemplate(body));
+        } else {
+          fbTextSend(message, context);
         }
-        fbTextSend(message, context);
+        
       }, function (error) {
         console.log("handle error while calling restaurant api "+error);
         fbTextSend("api error", context);
@@ -202,6 +205,8 @@ if (require.main === module) {
 }
 
 const buildGenericTemplate =(result) => {
+  var restaurant = result[0];
+  var geo = restaurant._source.geo;
   return {
     "attachment":{
       "type":"template",
@@ -209,25 +214,22 @@ const buildGenericTemplate =(result) => {
         "template_type":"generic",
         "elements":[
            {
-            "title":"Welcome to Peter\'s Hats",
-            "image_url":"https://petersfancybrownhats.com/company_image.png",
-            "subtitle":"We\'ve got the right hat for everyone.",
+            "title":"Kinda พบร้านที่คุณอยากทานแล้วครับ",
+            "image_url":restaurant.image,
+            "subtitle":restaurant._source.name,
             "default_action": {
               "type": "web_url",
-              "url": "https://peterssendreceiveapp.ngrok.io/view?item=103",
-              "messenger_extensions": true,
-              "webview_height_ratio": "tall",
-              "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
+              "url": "https://www.wongnai.com/restaurants/"+restaurant._source.original_id,
             },
             "buttons":[
               {
                 "type":"web_url",
-                "url":"https://petersfancybrownhats.com",
-                "title":"View Website"
+                "url":"https://www.wongnai.com/restaurants/"+restaurant._source.original_id,
+                "title":"Wongnai"
               },{
-                "type":"postback",
-                "title":"Start Chatting",
-                "payload":"DEVELOPER_DEFINED_PAYLOAD"
+                "type":"web_url",
+                "url":"http://maps.google.com/maps?q=loc:"+geo.location[1]+","+geo.location[0],
+                "title":"Map"
               }              
             ]      
           }
