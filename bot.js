@@ -193,9 +193,11 @@ const estaurantMessage = (msg, context) => {
             console.log("handle error while calling restaurant api "+error);
             fbTextSend("api error", context);
           }
-        ).catch(function (err) {
-            console.log("error while call restaurant api "+err);
-        });
+        )
+        ;
+        // .catch(function (err) {
+        //     console.log("error while call restaurant api "+err);
+        // });
       } else if (aiIntent.toLowerCase()==='eat_negative') {
 
       } else if (aiIntent.toLowerCase()==='greeting') {
