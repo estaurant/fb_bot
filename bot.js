@@ -21,7 +21,7 @@ const findOrCreateSession = (fbid) => {
     if (!sessions[k]) {
       delete sessions[k];
     }
-    if (sessions[k].fbid === fbid) {
+    if (sessions[k] && sessions[k].fbid === fbid) {
       // Yep, got it!
       sessionId = k;
     }
@@ -30,8 +30,8 @@ const findOrCreateSession = (fbid) => {
   var FIFTEEN_MIN = 15*60*1000;
   if (sessionId) {
     if (((new Date) - Date.parse(sessionId)) < FIFTEEN_MIN) {
-      sessions[sessionId] = null;
-      sessionId = null;
+      delete sessions[sessionId];
+      sessionId = undefined;
     }
   }
 
