@@ -5,7 +5,7 @@ const Config = require('./const.js');
 const callSentenceAi = (sentence) => {
     console.log("Config.SENTENCE_AI_URL="+Config.SENTENCE_AI_URL);
 
-    var url = Config.SENTENCE_AI_URL+"/intents/"+sentence;
+    var url = Config.SENTENCE_AI_URL+"/intents/"+encodeURIComponent(sentence);
     
     console.log("send="+url);
     
