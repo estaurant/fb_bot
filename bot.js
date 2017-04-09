@@ -179,7 +179,7 @@ const estaurantMessage = (msg, context) => {
         API.callRestaurantApi(query).then(
           function(body){
             var restaurants = body;
-            restaurants = filterReject(context._fbid_);
+            restaurants = filterReject(context._fbid_, restaurants);
             var message = "ขอโทษครับ Kinda หาร้านที่คุณอยากทานไม่เจอ";
             var restaurant = restaurants[0];
             if (restaurant) {
