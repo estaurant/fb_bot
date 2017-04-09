@@ -18,6 +18,9 @@ const findOrCreateSession = (fbid) => {
     console.log("k="+k);
     console.log("sessions[k]="+sessions[k]);
     console.log("fbid="+fbid);
+    if (!sessions[k]) {
+      delete sessions[k];
+    }
     if (sessions[k].fbid === fbid) {
       // Yep, got it!
       sessionId = k;
