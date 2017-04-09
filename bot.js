@@ -122,6 +122,7 @@ const findIntent = (msg) => {
 
 const estaurantMessage = (msg, context) => {
   var intent = findIntent(msg);
+  var keyword;
   if (intent === 'food') {
     fbTextSend("แปปนึงนะ", context);
     var matchStr = msg.match(/อยากกิน(.*)/);
