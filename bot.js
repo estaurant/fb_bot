@@ -208,6 +208,9 @@ if (require.main === module) {
 const buildGenericTemplate =(result) => {
   var restaurant = result[0];
   var geo = restaurant._source.geo;
+  var url = "https://www.wongnai.com/restaurants/"+restaurant._source.original_id;
+  var locationUrl = "http://maps.google.com/maps?q=loc:"+geo.location[1]+","+geo.location[0];
+  console.log("url="+url);
   return {
     "attachment":{
       "type":"template",
@@ -220,16 +223,16 @@ const buildGenericTemplate =(result) => {
             "subtitle":restaurant._source.name,
             "default_action": {
               "type": "web_url",
-              "url": "https://www.wongnai.com/restaurants/"+restaurant._source.original_id,
+              "url": url,
             },
             "buttons":[
               {
                 "type":"web_url",
-                "url":"https://www.wongnai.com/restaurants/"+restaurant._source.original_id,
+                "url":url,
                 "title":"Wongnai"
               },{
                 "type":"web_url",
-                "url":"http://maps.google.com/maps?q=loc:"+geo.location[1]+","+geo.location[0],
+                "url":locationUrl,
                 "title":"Map"
               }              
             ]      
