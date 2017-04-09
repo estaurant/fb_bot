@@ -168,7 +168,7 @@ const estaurantMessage = (msg, context) => {
 }
 
 const onGreeting = (context) => {
-  return fbTextSend("สวัสดีค่ะ ยินดีต้อนรับเข้าสู่บริการค้นหาร้านอาหาร estaurant พิมพ์ อยากกิน... ให้เราช่วยหาร้านอาหารได้เลยจ้า", context);
+  return fbTextSend("สวัสดีครับ ยินดีต้อนรับเข้าสู่บริการค้นหาร้านอาหาร estaurant ให้ Kinda ช่วยหาร้านอาหารได้เลยครับ", context);
 }
 
 const onMessage = (msg, context) => {
