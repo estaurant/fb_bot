@@ -133,10 +133,8 @@ const estaurantMessage = (msg, context) => {
     console.log("aiKeyword="+aiKeyword);
 
     if (aiIntent.toLowerCase()==='eat') {
-      
-      keyword = aiKeyword;
 
-      API.callRestaurantApi(keyword).then(
+      API.callRestaurantApi(aiKeyword).then(
         function(body){
           var restaurants = body;
           var message = "หาไม่เจออ่ะ";
