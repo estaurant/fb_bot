@@ -157,10 +157,7 @@ const estaurantMessage = (msg, context) => {
   } else if (msg.includes("ไม่เอา") || msg.toLowerCase().includes("เปลี่ยน")) {
     updateLastResultRejectList(context._fbid_);
   } else if (msg==='clear') {
-    session.lastQuery = undefined;
-    session.lastResult = undefined;
-    session.rejectList = undefined;
-
+    delete session['lastQuery'];
     console.log('clear data in session');
   }
 
