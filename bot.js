@@ -123,9 +123,7 @@ const findIntent = (msg) => {
 const estaurantMessage = (msg, context) => {
   if (msg === 'test') {
     fbSend(buildGenericTemplate({}) ,context);
-  }
-
-  if (intent === 'food') {
+  } else if (intent === 'food') {
     fbTextSend("แปปนึงนะ", context);
     var matchStr = msg.match(/อยากกิน(.*)/);
     keyword = matchStr[1];
