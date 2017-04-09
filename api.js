@@ -12,31 +12,8 @@ const callSentenceAi = (sentence) => {
     return request.get(url);
 }
 
-const callRestaurantApi = (keyword) => {
-    var intent = findFoodSubIntent(keyword);
-    console.log("intent="+intent);
-    var queryString = { 
-        keyword: keyword,
-        distance: '500m',
-        price: 300,
-        random: false
-    };
-
-    if (intent === 'near') {
-        queryString.distance = '100m';
-    } else if (intent === 'cheap') {
-        queryString.price = 100;
-    } else if (intent === 'expensive') {
-        queryString.price = 1000;
-    }
+const callRestaurantApi = (queryString) => {
     
-    if (intent === '') {
-        queryString.random = true;
-    } else {
-        //TODO can't extract keyword
-        queryString.keyword = '';
-    }
-
     var options = {
         uri: Config.RESTAURANT_API_URL,
         qs: queryString,

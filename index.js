@@ -40,6 +40,7 @@ const findOrCreateSession = (fbid) => {
       sessionId = k;
     }
   });
+
   if (!sessionId) {
     // No session found for user fbid, let's create a new one
     sessionId = new Date().toISOString();
