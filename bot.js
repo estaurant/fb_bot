@@ -141,7 +141,7 @@ const estaurantMessage = (msg, context) => {
           // if (geo && geo.location) {
           //   message += "ให้ google พาไปเลย http://maps.google.com/maps?q=loc:"+geo.location[1]+","+geo.location[0];
           // }
-          fbSend(buildGenericTemplate(body));
+          fbSend(buildGenericTemplate(body), context);
         } else {
           fbTextSend(message, context);
         }
