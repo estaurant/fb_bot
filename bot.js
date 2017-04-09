@@ -162,6 +162,7 @@ const estaurantMessage = (msg, context) => {
     
   } else if (msg.includes("ไม่เอา") || msg.toLowerCase().includes("เปลี่ยน")) {
     updateLastResultRejectList(context._fbid_);
+    conversation = true;
   } else if (msg==='clear') {
     delete session['lastQuery'];
     console.log('clear data in session');
@@ -427,38 +428,29 @@ const getRestaurantApiQuery= (fbid, intent, keyword)=> {
   var distance;
   var price;
 
-  if (intent.toLowerCase === 'recommend') {
+  if (intent.toLowerCase() === 'recommend') {
     keyword = '';
-    if (keyword.toLowerCase === 'cheap')  {
+    if (keyword.toLowerCase() === 'cheap')  {
       price = 100;
-    } else if (keyword.toLowerCase === 'expensive')  {
+    } else if (keyword.toLowerCase() === 'expensive')  {
       price = 1000;
-    } else if (keyword.toLowerCase === 'near') {
+    } else if (keyword.toLowerCase() === 'near') {
       distance = '300m';
-    } else if (keyword.toLowerCase === 'far') {
+    } else if (keyword.toLowerCase() === 'far') {
       distance = '5km';
     }
   }
 
-  if (session.lastQuery) {
-    console.log("session.lastQuery if");
-  } else {
-    console.log("session.lastQuery else");
-  }
-
   if (keyword === '' && session.lastQuery) {
     keyword = session.lastQuery.keyword
-    console.log("overide keyword");
   } 
 
   if (!distance && session.lastQuery) {
     distance = session.lastQuery.distance
-    console.log("overide distance");
   } 
 
   if (!price && session.lastQuery) {
     price = session.lastQuery.price
-    console.log("overide price");
   }
 
   var query = { 
