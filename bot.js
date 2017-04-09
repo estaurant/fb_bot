@@ -176,7 +176,7 @@ const estaurantMessage = (msg, context) => {
         fbTextSend("รอสักครู่นะครับ Kinda กำลังค้นหาร้านอาหาร", context);
         var query = getRestaurantApiQuery(context._fbid_, aiIntent, aiKeyword);
         updateLastQuery(context._fbid_, query);
-        API.callRestaurantApi(aiKeyword).then(
+        API.callRestaurantApi(query).then(
           function(body){
             var restaurants = body;
             restaurants = filterReject(context._fbid_);
