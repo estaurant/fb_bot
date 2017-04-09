@@ -124,7 +124,7 @@ const estaurantMessage = (msg, context) => {
   
   API.callSentenceAi(msg).then(function(body){
     fbTextSend("รอสักครู่นะครับ Kinda กำลังค้นหาร้านอาหาร", context);
-
+    console.log("ai response body="+body);
     var aiResult = JSON.parse(body);
     var aiIntent = aiResult[0];
     var aiKeyword = aiResult[1];
@@ -171,8 +171,7 @@ const estaurantMessage = (msg, context) => {
     } else if (intent === 'greeting') {
       onGreeting(context);
     } else if (intent === 'unknown') {
-      fbTextSend("... งง", context);
-      fbTextSend("เราช่วยหาร้านอาหารให้เธอได้นะ พิมพ์อยากกิน... ", context);
+      fbTextSend("Kinda ไม่เข้าใจครับ อยากกินอะไรช่วยบอก Kinda หน่อยนะครับ", context);
     }
   }).catch(function (err) {
       console.log("error while call Sentence Ai "+err);
