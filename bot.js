@@ -445,10 +445,10 @@ const getRestaurantApiQuery= (fbid, intent, keyword)=> {
       random: false
   };
 
-    console.log("return from getRestaurantApiQuery with distance="+queryString.distance);
-    console.log("return from getRestaurantApiQuery with price="+queryString.price);
-    console.log("return from getRestaurantApiQuery  with keyword="+queryString.keyword);
-    console.log("return from getRestaurantApiQuery  with random="+queryString.random);
+    console.log("return from getRestaurantApiQuery with distance="+query.distance);
+    console.log("return from getRestaurantApiQuery with price="+query.price);
+    console.log("return from getRestaurantApiQuery  with keyword="+query.keyword);
+    console.log("return from getRestaurantApiQuery  with random="+query.random);
 
   return query;
 }
