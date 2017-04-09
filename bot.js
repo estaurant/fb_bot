@@ -208,9 +208,11 @@ if (require.main === module) {
 const buildGenericTemplate =(result) => {
   var restaurant = result[0];
   var geo = restaurant._source.geo;
-  var url = "https://www.wongnai.com/restaurants/"+restaurant._source.original_id;
+  var url = "https://www.wongnai.com/"+restaurant._source.original_id;
   var locationUrl = "http://maps.google.com/maps?q=loc:"+geo.location[1]+","+geo.location[0];
+  var imageUrl = restaurant.image;
   console.log("url="+url);
+  console.log("imageUrl="+imageUrl);
   return {
     "attachment":{
       "type":"template",
