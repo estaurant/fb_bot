@@ -148,17 +148,23 @@ const estaurantMessage = (msg, context) => {
   var session = sessions[sessionId];
   var conversation = false;
   if (msg.includes("เมนู") || msg.toLowerCase().includes("menu")) {
+    console.log("findMenu");
     var menu = findMenu(context._fbid_);
     if (menu) {
+      console.log("found menu");
       conversation = true;
       fbTextSend(menu, context);
+    } else {
+      console.log("not found menu");
     }
     
   } else if (msg.includes("ไม่เอา") || msg.toLowerCase().includes("เปลี่ยน")) {
     updateLastResultRejectList(context._fbid_);
+    conversation = true;
   } else if (msg==='clear') {
     delete session['lastQuery'];
     console.log('clear data in session');
+    conversation = true;
   }
 
   if (!conversation) {
