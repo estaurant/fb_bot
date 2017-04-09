@@ -9,6 +9,39 @@ const WordApi = {};
 const readline = require('readline');
 const API = require('./api.js');
 
+const sessions = {};
+
+const findOrCreateSession = (fbid) => {
+  let sessionId;
+  // Let's see if we already have a session for the user fbid
+  Object.keys(sessions).forEach(k => {
+    if (sessions[k].fbid === fbid) {
+      // Yep, got it!
+      sessionId = k;
+    }
+  });
+
+  var FIFTEEN_MIN = 15*60*1000;
+  if (sessionId) {
+    if (((new Date) - Date.parse(sessionId)) < FIFTEEN_MIN) {
+      sessions[sessionId] = null;
+      sessionId = null;
+    }
+  }
+
+  if (!sessionId) {
+    // No session found for user fbid, let's create a new one
+    sessionId = new Date().toISOString();
+    sessions[sessionId] = {
+      fbid: fbid,
+      context: {
+        _fbid_: fbid
+      }
+    }; // set context, _fid_
+  }
+  return sessionId;
+};
+
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
@@ -231,38 +264,7 @@ if (require.main === module) {
   rlInteractive(client);
 }
 
-const sessions = {};
 
-const findOrCreateSession = (fbid) => {
-  let sessionId;
-  // Let's see if we already have a session for the user fbid
-  Object.keys(sessions).forEach(k => {
-    if (sessions[k].fbid === fbid) {
-      // Yep, got it!
-      sessionId = k;
-    }
-  });
-
-  var FIFTEEN_MIN = 15*60*1000;
-  if (sessionId) {
-    if (((new Date) - Date.parse(sessionId)) < FIFTEEN_MIN) {
-      sessions[sessionId] = null;
-      sessionId = null;
-    }
-  }
-
-  if (!sessionId) {
-    // No session found for user fbid, let's create a new one
-    sessionId = new Date().toISOString();
-    sessions[sessionId] = {
-      fbid: fbid,
-      context: {
-        _fbid_: fbid
-      }
-    }; // set context, _fid_
-  }
-  return sessionId;
-};
 
 const updateLastQuery = (fbid, query) => {
   var sessionId = findOrCreateSession(fbid);
