@@ -168,9 +168,11 @@ const estaurantMessage = (msg, context) => {
         fbTextSend("Kinda ไม่เข้าใจครับ อยากกินอะไรช่วยบอก Kinda หน่อยนะครับ", context);
       }
 
-    }).catch(function (err) {
-        console.log("error while call Sentence Ai "+err);
-    });
+    })
+    ;
+    // .catch(function (err) {
+    //     console.log("error while call Sentence Ai "+err);
+    // });
   }
   
 
