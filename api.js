@@ -3,6 +3,7 @@ const request = require('request-promise');
 const Config = require('./const.js');
 
 const callSentenceAi = (sentence) => {
+    console.log("Config.SENTENCE_AI_URL="+Config.SENTENCE_AI_URL);
     return request.get(Config.SENTENCE_AI_URL+"/intents/"+sentence)
 }
 
