@@ -4,7 +4,12 @@ const Config = require('./const.js');
 
 const callSentenceAi = (sentence) => {
     console.log("Config.SENTENCE_AI_URL="+Config.SENTENCE_AI_URL);
-    return request.get(Config.SENTENCE_AI_URL+"/intents/"+sentence)
+
+    var url = Config.SENTENCE_AI_URL+"/intents/"+sentence;
+    
+    console.log("send="+url);
+    
+    return request.get(url);
 }
 
 const callRestaurantApi = (keyword) => {
