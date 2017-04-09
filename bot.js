@@ -509,3 +509,22 @@ const findFoodSubIntent = (msg) => {
     console.log("local findIntent="+intent+", keyword="+keyword);
     return {"intent":intent,"keyword":keyword}
 }
+
+const isMatchIntent = (intentList, inverseIntentList, keyword) => {
+    var matchIntent = false;
+    var matchInverseIntent = false;
+
+    for (var i = 0; i < intentList.length; i++) { 
+        if (keyword.includes(intentList[i])) {
+            matchIntent = true;
+        }
+    }
+
+    for (var i = 0; i < matchInverseIntent.length; i++) { 
+        if (keyword.includes(intentList[i])) {
+            matchInverseIntent = true;
+        }
+    }
+
+    return matchIntent && !matchInverseIntent
+}
