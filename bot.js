@@ -123,7 +123,7 @@ const findIntent = (msg) => {
 const estaurantMessage = (msg, context) => {
   
   API.callSentenceAi(msg).then(function(body){
-    fbTextSend("รอสักครู่นะครับ Kinda กำลังค้นหาร้านอาหาร", context);
+    
     console.log("ai response body="+body);
     var aiResult = JSON.parse(body);
     var aiIntent = aiResult.intent?aiResult.intent:"";
@@ -133,7 +133,7 @@ const estaurantMessage = (msg, context) => {
     console.log("aiKeyword="+aiKeyword);
 
     if (aiIntent.toLowerCase()==='eat') {
-
+      fbTextSend("รอสักครู่นะครับ Kinda กำลังค้นหาร้านอาหาร", context);
       API.callRestaurantApi(aiKeyword).then(
         function(body){
           var restaurants = body;
