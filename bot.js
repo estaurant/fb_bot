@@ -137,17 +137,15 @@ const estaurantMessage = (msg, context) => {
     } else if (aiIntent.toLowerCase()==='eat_negative') {
 
     } else if (aiIntent.toLowerCase()==='greeting') {
-      
+
     }
 
     var intent = findIntent(msg);
     var keyword;
-    console.log("ai result="+aiResult);
-  }).catch(function (err) {
-      console.log("error while call Sentence Ai "+err);
-  });
 
-  if (intent === 'food') {
+    console.log("ai result="+aiResult);
+
+    if (intent === 'food') {
     
     var matchStr = msg.match(/อยากกิน(.*)/);
     keyword = matchStr[1];
@@ -158,13 +156,6 @@ const estaurantMessage = (msg, context) => {
         var message = "หาไม่เจออ่ะ";
         var restaurant = restaurants[0];
         if (restaurant) {
-
-
-          // message = "ลอง "+restaurant._source.name+" ไหมเธอ";
-          // var geo = restaurant._source.geo;
-          // if (geo && geo.location) {
-          //   message += "ให้ google พาไปเลย http://maps.google.com/maps?q=loc:"+geo.location[1]+","+geo.location[0];
-          // }
           fbSend(buildGenericTemplate(body), context);
         } else {
           fbTextSend(message, context);
@@ -177,12 +168,15 @@ const estaurantMessage = (msg, context) => {
     ).catch(function (err) {
         console.log("error while call restaurant api "+err);
     });
-  } else if (intent === 'greeting') {
-    onGreeting(context);
-  } else if (intent === 'unknown') {
-    fbTextSend("... งง", context);
-    fbTextSend("เราช่วยหาร้านอาหารให้เธอได้นะ พิมพ์อยากกิน... ", context);
-  }
+    } else if (intent === 'greeting') {
+      onGreeting(context);
+    } else if (intent === 'unknown') {
+      fbTextSend("... งง", context);
+      fbTextSend("เราช่วยหาร้านอาหารให้เธอได้นะ พิมพ์อยากกิน... ", context);
+    }
+  }).catch(function (err) {
+      console.log("error while call Sentence Ai "+err);
+  });
 
   return Promise.resolve(true);
 }
