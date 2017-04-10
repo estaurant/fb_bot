@@ -434,7 +434,7 @@ const getRestaurantApiQuery= (fbid, intent, keyword)=> {
   var random = false;
 
   if (intent.toLowerCase() === 'recommend') {
-    keyword = '';
+    
     if (keyword.toLowerCase() === 'cheap')  {
       console.log("set price = 100");
       price = 100;
@@ -446,6 +446,7 @@ const getRestaurantApiQuery= (fbid, intent, keyword)=> {
     } else if (keyword.toLowerCase() === 'far') {
       distance = '5km';
     }
+    keyword = '';
   }
 
   if (keyword === '' && session.lastQuery) {
@@ -455,12 +456,8 @@ const getRestaurantApiQuery= (fbid, intent, keyword)=> {
   if (!distance && session.lastQuery) {
     distance = session.lastQuery.distance
   } 
-  console.log("if "+!price && session.lastQuery);
   if (!price && session.lastQuery) {
     price = session.lastQuery.price
-    console.log("use price from lastQuery");
-  } else {
-    console.log("use price from keyword");
   }
 
   if (keyword === '') {
@@ -530,7 +527,6 @@ const isMatchIntent = (intentList, inverseIntentList, keyword) => {
             matchInverseIntent = true;
         }
     }
-    console.log("matchIntent="+matchIntent);
-    console.log("matchInverseIntent="+matchInverseIntent);
+    
     return matchIntent && !matchInverseIntent
 }
