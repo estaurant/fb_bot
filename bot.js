@@ -446,7 +446,6 @@ const getRestaurantApiQuery= (fbid, intent, keyword)=> {
 
   if (keyword === '' && session.lastQuery) {
     keyword = session.lastQuery.keyword
-    random = true;
   } 
 
   if (!distance && session.lastQuery) {
@@ -455,6 +454,10 @@ const getRestaurantApiQuery= (fbid, intent, keyword)=> {
 
   if (!price && session.lastQuery) {
     price = session.lastQuery.price
+  }
+
+  if (keyword === '') {
+    random = true;
   }
 
   var query = { 
