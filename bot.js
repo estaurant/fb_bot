@@ -197,11 +197,10 @@ const estaurantMessage = (msg, context) => {
             if (restaurant) {
               if (query.random) {
                 fbTextSend("คินดะงง แต่ลองร้านนี้ดูไหม", context);
-                fbSend(buildGenericTemplate(body), context);
               } else {
                 fbTextSend("คินดะเจอร้านแล้วครับ", context);
-                fbSend(buildListTemplate(body), context);
               }
+              fbSend(buildGenericTemplate(body), context);
               updateLastResult(context._fbid_, restaurant);
             } else {
               fbTextSend(message, context);
