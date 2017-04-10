@@ -195,8 +195,14 @@ const estaurantMessage = (msg, context) => {
             var message = "ขอโทษครับ คินดะ หาร้านที่คุณอยากทานไม่เจอ";
             var restaurant = restaurants[0];
             if (restaurant) {
+              if (query.random) {
+                fbTextSend("คินดะงง แต่ลองร้านนี้ดูไหม", context);
+                fbSend(buildGenericTemplate(body), context);
+              } else {
+                fbTextSend("คินดะเจอร้านแล้วครับ", context);
+                fbSend(buildListSTemplate(body), context);
+              }
               updateLastResult(context._fbid_, restaurant);
-              fbSend(buildGenericTemplate(body), context);
             } else {
               fbTextSend(message, context);
             }
@@ -345,10 +351,28 @@ const buildItem = (item) => {
     };
 }
 
+const buildItemList = (item) => {
+  var restaurant = item;
+  var geo = restaurant._source.geo;
+  var url = "https://www.wongnai.com/"+restaurant._source.original_id;
+  var locationUrl = "http://maps.google.com/maps?q=loc:"+geo.location[1]+","+geo.location[0];
+  var imageUrl = restaurant._source.image;
+
+  return {
+      "title":restaurant._source.name,
+      "image_url":imageUrl,
+      "subtitle":restaurant._source.address.addressLocality,
+      "default_action": {
+        "type": "web_url",
+        "url": url,
+      }
+  };
+}
+
 const buildListSTemplate = (result) => {
   var list = [];
   for (var i=0; i<result.length; ++i) {
-    list.push(buildItem(result[i]));
+    list.push(buildItemList(result[i]));
   }
   return {
     "attachment": {
@@ -493,8 +517,8 @@ const findFoodSubIntent = (msg) => {
     var inversePriceLessThan100 = ["ไม่จน"];
     var isPriceLessThan100 = isMatchIntent(priceLessThan100, inversePriceLessThan100, msg);
     
-    var priceMoreThan100 = ["รวย", "เงินเดือนออก", "ถูกหวย", "ไฮโซ", "หรู", "ถูกไป"]
-    var inversePriceMoreThan100 = ["ไม่รวย","ถูกหวยกิน", "ถูกหวยแดก"]
+    var priceMoreThan100 = ["รวย", "เงินเดือนออก", "ถูกหวย", "ไฮโซ", "หรู", "ถูกไป", "แพง"]
+    var inversePriceMoreThan100 = ["ไม่รวย","ถูกหวยกิน", "ถูกหวยแดก", "ไม่แพง"]
 
     var isPriceMoreThan100 = isMatchIntent(priceMoreThan100, inversePriceMoreThan100, msg);
 
