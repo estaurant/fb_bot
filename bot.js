@@ -498,13 +498,13 @@ const findFoodSubIntent = (msg) => {
     var isPriceMoreThan100 = isMatchIntent(priceMoreThan100, inversePriceMoreThan100, msg);
 
     if (isDistanceLessThan100m) {
-        intent = "default"
+        intent = "recommend"
         keyword = "near"
     } else if (isPriceLessThan100) {
-        intent = "default"
+        intent = "recommend"
         keyword = "cheap";
     } else if (isPriceMoreThan100) {
-        intent = "default"
+        intent = "recommend"
         keyword = "expensive";
     }
     console.log("local findIntent="+intent+", keyword="+keyword);
