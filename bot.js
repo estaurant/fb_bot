@@ -27,14 +27,6 @@ const findOrCreateSession = (fbid) => {
     }
   });
 
-  var FIFTEEN_MIN = 15*60*1000;
-  if (sessionId) {
-    if (((new Date) - Date.parse(sessionId)) > FIFTEEN_MIN) {
-      delete sessions[sessionId];
-      sessionId = undefined;
-    }
-  }
-
   if (!sessionId) {
     // No session found for user fbid, let's create a new one
     sessionId = new Date().toISOString();
@@ -185,7 +177,7 @@ const estaurantMessage = (msg, context) => {
       console.log("localKeyword"+localIntent.keyword);
 
       if (aiIntent.toLowerCase()==='eat' || aiIntent.toLowerCase()==='recommend' || localIntent.intent.toLowerCase()==='recommend') {
-        fbTextSend("รอสักครู่นะครับ Kinda กำลังค้นหาร้านอาหาร", context);
+        fbTextSend("รอสักครู่นะครับ คินดะ กำลังค้นหาร้านอาหาร", context);
         var query;
         if (aiIntent.toLowerCase() === 'default') {
           query = getRestaurantApiQuery(context._fbid_, localIntent.intent, localIntent.keyword);
@@ -198,7 +190,7 @@ const estaurantMessage = (msg, context) => {
           function(body){
             var restaurants = body;
             restaurants = filterReject(context._fbid_, restaurants);
-            var message = "ขอโทษครับ Kinda หาร้านที่คุณอยากทานไม่เจอ";
+            var message = "ขอโทษครับ คินดะ หาร้านที่คุณอยากทานไม่เจอ";
             var restaurant = restaurants[0];
             if (restaurant) {
               updateLastResult(context._fbid_, restaurant);
@@ -221,7 +213,7 @@ const estaurantMessage = (msg, context) => {
       } else if (aiIntent.toLowerCase()==='greeting') {
         onGreeting(context);
       } else {
-        fbTextSend("Kinda ไม่เข้าใจครับ อยากกินอะไรช่วยบอก Kinda หน่อยนะครับ", context);
+        fbTextSend("คินดะ ไม่เข้าใจครับ อยากกินอะไรช่วยบอก คินดะ หน่อยนะครับ", context);
       }
 
     })
@@ -242,7 +234,7 @@ const findMenu = (fbid) => {
   console.log("findMenu session="+session);
   if (session.lastResult) {
     console.log("found lastResult");
-    return "Kinda ขอแนะนำเมนู "+session.lastResult._source.menus.join(",") + "นะครับ";
+    return "คินดะ ขอแนะนำเมนู "+session.lastResult._source.menus.join(",") + "นะครับ";
   } else {
     console.log("not found lastResult");
     return;
@@ -250,7 +242,7 @@ const findMenu = (fbid) => {
 }
 
 const onGreeting = (context) => {
-  return fbTextSend("สวัสดีครับ ยินดีต้อนรับเข้าสู่บริการค้นหาร้านอาหาร estaurant ให้ Kinda ช่วยหาร้านอาหารได้เลยครับ", context);
+  return fbTextSend("สวัสดีครับ ยินดีต้อนรับเข้าสู่บริการค้นหาร้านอาหาร estaurant ให้ คินดะ ช่วยหาร้านอาหารได้เลยครับ", context);
 }
 
 const onMessage = (msg, context) => {
@@ -406,7 +398,7 @@ const buildGenericTemplate =(result) => {
         "template_type":"generic",
         "elements":[
            {
-            "title":"Kinda พบร้านที่คุณอยากทานแล้วครับ",
+            "title":restaurant._source.name,
             "image_url":imageUrl,
             "subtitle":restaurant._source.name,
             "default_action": {
@@ -417,7 +409,7 @@ const buildGenericTemplate =(result) => {
               {
                 "type":"web_url",
                 "url":url,
-                "title":"Wongnai"
+                "title":"Link"
               },{
                 "type":"web_url",
                 "url":locationUrl,
@@ -437,6 +429,7 @@ const getRestaurantApiQuery= (fbid, intent, keyword)=> {
   var session = sessions[sessionId];
   var distance;
   var price;
+  var random = false;
 
   if (intent.toLowerCase() === 'recommend') {
     keyword = '';
@@ -453,6 +446,7 @@ const getRestaurantApiQuery= (fbid, intent, keyword)=> {
 
   if (keyword === '' && session.lastQuery) {
     keyword = session.lastQuery.keyword
+    random = true;
   } 
 
   if (!distance && session.lastQuery) {
@@ -467,7 +461,7 @@ const getRestaurantApiQuery= (fbid, intent, keyword)=> {
       keyword: keyword ,
       distance: distance?distance:'2km',
       price: price?price:500,
-      random: false
+      random: random
   };
 
     console.log("return from getRestaurantApiQuery with distance="+query.distance);
