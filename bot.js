@@ -454,6 +454,9 @@ const getRestaurantApiQuery= (fbid, intent, keyword)=> {
 
   if (!price && session.lastQuery) {
     price = session.lastQuery.price
+    console.log("use price from lastQuery");
+  } else {
+    console.log("use price from keyword");
   }
 
   if (keyword === '') {
