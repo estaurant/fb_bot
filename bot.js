@@ -477,31 +477,32 @@ const getRestaurantApiQuery= (fbid, intent, keyword)=> {
 
 const findFoodSubIntent = (msg) => {
     
-    var intent = "recommend";
+    var intent = "default";
     var keyword = "default";
 
     var distanceLessThan100m = ["หิว", "เร็ว", "รีบ"];
     var inverseDistanceLessThan100m = ["ไม่หิว", "ไม่เร็ว", "ไม่รีบ"];
 
-    var isDistanceLessThan100m = isMatchIntent(distanceLessThan100m, inverseDistanceLessThan100m, keyword);
+    var isDistanceLessThan100m = isMatchIntent(distanceLessThan100m, inverseDistanceLessThan100m, msg);
 
     var priceLessThan100 = ["จน", "ไม่มีเงิน", "ไม่แพง", "กระเป๋าแบน", "ถูก", "แพงไป"];
     var inversePriceLessThan100 = ["ไม่จน"];
-    var isPriceLessThan100 = isMatchIntent(priceLessThan100, inversePriceLessThan100, keyword);
+    var isPriceLessThan100 = isMatchIntent(priceLessThan100, inversePriceLessThan100, msg);
     
     var priceMoreThan100 = ["รวย", "เงินเดือนออก", "ถูกหวย", "ไฮโซ", "หรู", "ถูกไป"]
     var inversePriceMoreThan100 = ["ไม่รวย","ถูกหวยกิน", "ถูกหวยแดก"]
 
-    var isPriceMoreThan100 = isMatchIntent(priceMoreThan100, inversePriceMoreThan100, keyword);
+    var isPriceMoreThan100 = isMatchIntent(priceMoreThan100, inversePriceMoreThan100, msg);
 
     if (isDistanceLessThan100m) {
+        intent = "default"
         keyword = "near"
     } else if (isPriceLessThan100) {
+        intent = "default"
         keyword = "cheap";
     } else if (isPriceMoreThan100) {
+        intent = "default"
         keyword = "expensive";
-    } else {
-        keyword = "default";
     }
     console.log("local findIntent="+intent+", keyword="+keyword);
     return {"intent":intent,"keyword":keyword}
@@ -522,6 +523,7 @@ const isMatchIntent = (intentList, inverseIntentList, keyword) => {
             matchInverseIntent = true;
         }
     }
-
+    console.log("matchIntent="+matchIntent);
+    console.log("matchInverseIntent="+matchInverseIntent);
     return matchIntent && !matchInverseIntent
 }
