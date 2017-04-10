@@ -200,7 +200,7 @@ const estaurantMessage = (msg, context) => {
                 fbSend(buildGenericTemplate(body), context);
               } else {
                 fbTextSend("คินดะเจอร้านแล้วครับ", context);
-                fbSend(buildListSTemplate(body), context);
+                fbSend(buildListTemplate(body), context);
               }
               updateLastResult(context._fbid_, restaurant);
             } else {
@@ -369,9 +369,9 @@ const buildItemList = (item) => {
   };
 }
 
-const buildListSTemplate = (result) => {
+const buildListTemplate = (result) => {
   var list = [];
-  for (var i=0; i<result.length; ++i) {
+  for (var i=0; i<result.length || i<2; ++i) {
     list.push(buildItemList(result[i]));
   }
   return {
