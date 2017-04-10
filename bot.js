@@ -174,7 +174,7 @@ const estaurantMessage = (msg, context) => {
       console.log("aiKeyword="+aiKeyword);
 
       console.log("localIntent="+localIntent.intent);
-      console.log("localKeyword"+localIntent.keyword);
+      console.log("localKeyword="+localIntent.keyword);
 
       if (aiIntent.toLowerCase()==='eat' || aiIntent.toLowerCase()==='recommend' || localIntent.intent.toLowerCase()==='recommend') {
         fbTextSend("รอสักครู่นะครับ คินดะ กำลังค้นหาร้านอาหาร", context);
@@ -183,7 +183,7 @@ const estaurantMessage = (msg, context) => {
           console.log("call getRestaurantApiQuery use localIntent");
           query = getRestaurantApiQuery(context._fbid_, localIntent.intent, localIntent.keyword);
         } else {
-          console.log("call getRestaurantApiQuery use localIntent");
+          console.log("call getRestaurantApiQuery use AI");
           query = getRestaurantApiQuery(context._fbid_, aiIntent, aiKeyword);
         }
         
@@ -436,8 +436,10 @@ const getRestaurantApiQuery= (fbid, intent, keyword)=> {
   if (intent.toLowerCase() === 'recommend') {
     keyword = '';
     if (keyword.toLowerCase() === 'cheap')  {
+      console.log("set price = 100");
       price = 100;
     } else if (keyword.toLowerCase() === 'expensive')  {
+      console.log("set price = 1000");
       price = 1000;
     } else if (keyword.toLowerCase() === 'near') {
       distance = '300m';
@@ -453,7 +455,7 @@ const getRestaurantApiQuery= (fbid, intent, keyword)=> {
   if (!distance && session.lastQuery) {
     distance = session.lastQuery.distance
   } 
-
+  console.log("if "+!price && session.lastQuery);
   if (!price && session.lastQuery) {
     price = session.lastQuery.price
     console.log("use price from lastQuery");
