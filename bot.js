@@ -180,8 +180,10 @@ const estaurantMessage = (msg, context) => {
         fbTextSend("รอสักครู่นะครับ คินดะ กำลังค้นหาร้านอาหาร", context);
         var query;
         if (aiIntent.toLowerCase() === 'default') {
+          console.log("call getRestaurantApiQuery use localIntent");
           query = getRestaurantApiQuery(context._fbid_, localIntent.intent, localIntent.keyword);
         } else {
+          console.log("call getRestaurantApiQuery use localIntent");
           query = getRestaurantApiQuery(context._fbid_, aiIntent, aiKeyword);
         }
         
@@ -424,7 +426,7 @@ const buildGenericTemplate =(result) => {
 }
 
 const getRestaurantApiQuery= (fbid, intent, keyword)=> {
-  console.log("getRestaurantApiQuery");
+  console.log("getRestaurantApiQuery intent="+intent+", keyword="+keyword);
   var sessionId = findOrCreateSession(fbid);
   var session = sessions[sessionId];
   var distance;
